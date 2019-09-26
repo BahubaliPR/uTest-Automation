@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.utest.com</groupId>
-  <artifactId>utestgit</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.utest.com</groupId>
+	<artifactId>utestgit</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<name>utest</name>
 	<url>http://maven.apache.org</url>
@@ -12,41 +13,38 @@
 	</properties>
 
 	<dependencies>
+		<!-- This dependency is for selenium JAR file used for automation testing -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>3.141.59</version>
 		</dependency>
-
+		<!-- This dependency is for selenium driver JAR file used for automation 
+			testing -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>htmlunit-driver</artifactId>
 			<version>2.33.2</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+		<!-- Adding `this dependency to TesnNG framework in uTest project -->
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.14.3</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<!-- This Dependency is added to achieve Data driven framework -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.7</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<!-- log4j dependencies are used to generate the logs in output file for 
+			tracking automation flow -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-
-
 	</dependencies>
-  
 </project>
