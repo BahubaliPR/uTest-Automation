@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Sanity" duration-ms="21438" started-at="2019-10-20T13:15:15Z" finished-at="2019-10-20T13:15:37Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="21438" started-at="2019-10-20T13:15:15Z" finished-at="2019-10-20T13:15:37Z">
+      <class name="org.utest.com.tests.TC_001_PracticeTableTest">
+        <test-method status="PASS" signature="init()[pri:0, instance:org.utest.com.tests.TC_001_PracticeTableTest@2acf57e3]" name="init" is-config="true" duration-ms="11466" started-at="2019-10-20T18:45:15Z" finished-at="2019-10-20T18:45:27Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- init -->
+        <test-method status="PASS" signature="performPracticeTable()[pri:0, instance:org.utest.com.tests.TC_001_PracticeTableTest@2acf57e3]" name="performPracticeTable" duration-ms="8783" started-at="2019-10-20T18:45:27Z" finished-at="2019-10-20T18:45:36Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- performPracticeTable -->
+        <test-method status="PASS" signature="closeBrowser()[pri:0, instance:org.utest.com.tests.TC_001_PracticeTableTest@2acf57e3]" name="closeBrowser" is-config="true" duration-ms="977" started-at="2019-10-20T18:45:36Z" finished-at="2019-10-20T18:45:37Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+      </class> <!-- org.utest.com.tests.TC_001_PracticeTableTest -->
+    </test> <!-- Test -->
+  </suite> <!-- Sanity -->
+</testng-results>
