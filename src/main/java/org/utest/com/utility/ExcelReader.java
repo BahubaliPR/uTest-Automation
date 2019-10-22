@@ -1,5 +1,8 @@
 package org.utest.com.utility;
 
+/*
+ * Bahubali P R
+ */
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -10,13 +13,13 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class ExcelReader {
 
-	public FileOutputStream fileout = null;
-	public FileInputStream fileIn;;
-	public XSSFWorkbook workbook;
-	public XSSFSheet sheet;
-	public XSSFRow row;
-	public XSSFCell cell;
-	public String path;
+	private FileOutputStream fileout = null;
+	private FileInputStream fileIn;;
+	private XSSFWorkbook workbook;
+	private XSSFSheet sheet;
+	private XSSFRow row;
+	private XSSFCell cell;
+	private String path;
 
 	public ExcelReader(String path) {
 		this.path = path;

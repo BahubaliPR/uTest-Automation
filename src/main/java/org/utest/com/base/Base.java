@@ -1,9 +1,11 @@
 package org.utest.com.base;
 
+/*
+ * Bahubali P R
+ */
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.utest.com.extentreports.ExtentReport;
 import org.utest.com.utility.ExcelReader;
 
 public class Base {
@@ -22,17 +25,19 @@ public class Base {
 	public WebDriver driver = null;
 	private WebDriverWait wait = null;
 	private ExcelReader readExcel = null;
+	private ExtentReport reports = null;
 
 	/*
 	 * setting up the user directory
 	 */
-	private String userdir = System.getProperty("user.dir");
+	public String userdir = System.getProperty("user.dir");
 
 	/*
 	 * Launch the browser and maximize the window
 	 */
 	public void launchBrowser() {
-		//driverPath = getCellDataFromExcel("testDataSheet.xlsx", "TestData", "TableColumn", 1);
+		// driverPath = getCellDataFromExcel("testDataSheet.xlsx", "TestData",
+		// "TableColumn", 1);
 		System.setProperty("webdriver.chrome.driver", userdir + "/Drivers/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
@@ -75,7 +80,7 @@ public class Base {
 	/*
 	 * Waits until visibility of all the elements in the current page
 	 */
-	public void waitUntilElementToBeVisible(List<WebElement> elements, WebDriver driver) {
+	public void waitUntilElementsToBeVisible(List<WebElement> elements, WebDriver driver) {
 		wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfAllElements(elements));
 	}
@@ -124,5 +129,13 @@ public class Base {
 
 		String data = readExcel.getCellDataFromSheet(sheetName, colName, rowNumber);
 		return data;
+	}
+
+	/*
+	 * This block of code will be used to geerate extent reports
+	 */
+	public void genarateExtentReports(String testName) {
+		reports = new ExtentReport();
+		reports.extentReports(testName);
 	}
 }

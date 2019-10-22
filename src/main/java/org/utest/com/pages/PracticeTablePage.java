@@ -1,24 +1,23 @@
 package org.utest.com.pages;
 
+/*
+ * Bahubali P R
+ */
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.utest.com.base.Base;
 
-import net.bytebuddy.asm.Advice.ArgumentHandler.Factory;
-
 public class PracticeTablePage {
 
-	public WebDriver driver = null;
+	private WebDriver driver = null;
 	private Actions action = null;
-	public Base base = null;
+	private Base base = null;
 
 	@FindBy(how = How.XPATH, using = ".//ul[@id='primary-menu']//preceding::nav[@class='navigation']//span[contains(text(),'DEMO SITES')]")
 	private WebElement moveToDemoSite;
@@ -44,26 +43,25 @@ public class PracticeTablePage {
 	public void getDataFromTheTable() {
 		action = new Actions(driver);
 		base = new Base();
-		
+
 		base.waitUntilElementToBeClickable(moveToDemoSite, driver);
 		action.moveToElement(moveToDemoSite).perform();
-		
+
 		base.waitUntilElementToBeClickable(clickOnPracticeTable, driver);
 		clickOnPracticeTable.click();
 
 		base.waitUntilPageLoad(driver);
 		List<WebElement> totalRows = baseTable.findElements(By.xpath(".//tr//td"));
-      	int rowSize = totalRows.size();
+		int rowSize = totalRows.size();
 
 		for (int row = 1; row < rowSize; row++) {
-			
+
 			String country = "UAE";
 			String cellData = totalRows.get(row).getText();
-			if(country.equals(cellData)){
+			if (country.equals(cellData)) {
 				System.out.println(cellData);
 				break;
 			}
 		}
 	}
-
 }
