@@ -4,20 +4,32 @@ package org.utest.com.base;
  * Bahubali P R
  */
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.events.WebDriverEventListener;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.utest.com.configfilereader.ConfigFileReader;
 import org.utest.com.extentreports.ExtentReport;
 import org.utest.com.utility.ExcelReader;
+import org.utest.com.webdriverlisteners.WebEventListener;
 
 public class Base {
+
+	/*
+	 * Creating reference for EventFirinfWebDriver and WebEventLestener
+	 */
+	public EventFiringWebDriver eventDriver = null;
+	private WebEventListener eventListener = null;
+	private ConfigFileReader reader = null;
 
 	/*
 	 * Creating a WebDriver reference
@@ -36,18 +48,23 @@ public class Base {
 	 * Launch the browser and maximize the window
 	 */
 	public void launchBrowser() {
-		// driverPath = getCellDataFromExcel("testDataSheet.xlsx", "TestData",
-		// "TableColumn", 1);
-		System.setProperty("webdriver.chrome.driver", userdir + "/Drivers/chromedriver.exe");
+		
+		reader = new ConfigFileReader();
+		System.setProperty("webdriver.chrome.driver", userdir + reader.getDriverPath());
 		driver = new ChromeDriver();
-		driver.manage().window().maximize();
+		eventDriver = new EventFiringWebDriver(driver);
+		eventListener = new WebEventListener();
+		eventDriver.register(eventListener);
+	
+
+		eventDriver.manage().window().maximize();
 	}
 
 	/*
 	 * Set the URL to be navigated
 	 */
 	public void navigateToURL() {
-		driver.get("http://www.toolsqa.com/");
+		eventDriver.get(reader.getApplicationUrl());
 	}
 
 	/*
@@ -65,15 +82,15 @@ public class Base {
 	 */
 	@AfterMethod
 	public void closeBrowser() {
-		driver.close();
-		driver.quit();
+		eventDriver.close();
+		eventDriver.quit();
 	}
 
 	/*
 	 * Waits until the element to be clickable on the current page
 	 */
 	public void waitUntilElementToBeClickable(WebElement element, WebDriver driver) {
-		wait = new WebDriverWait(driver, 30);
+		wait = new WebDriverWait(driver, reader.getExplicitWait());
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
 
@@ -81,7 +98,7 @@ public class Base {
 	 * Waits until visibility of all the elements in the current page
 	 */
 	public void waitUntilElementsToBeVisible(List<WebElement> elements, WebDriver driver) {
-		wait = new WebDriverWait(driver, 30);
+		wait = new WebDriverWait(driver, reader.getExplicitWait());
 		wait.until(ExpectedConditions.visibilityOfAllElements(elements));
 	}
 
@@ -89,7 +106,7 @@ public class Base {
 	 * waits until current page to be loaded
 	 */
 	public void waitUntilPageLoad(WebDriver driver) {
-		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(reader.getImplicitlyWait(), TimeUnit.SECONDS);
 	}
 
 	/*
@@ -97,12 +114,12 @@ public class Base {
 	 */
 	public void switchToHandleWindow(WebDriver driver) {
 
-		String parentWindowHandle = driver.getWindowHandle();
-		Set<String> windowHandles = driver.getWindowHandles();
+		String parentWindowHandle = eventDriver.getWindowHandle();
+		Set<String> windowHandles = eventDriver.getWindowHandles();
 
 		for (String handle : windowHandles) {
 			if (!parentWindowHandle.equals(handle)) {
-				driver.switchTo().window(handle);
+				eventDriver.switchTo().window(handle);
 				String windowTitle = driver.getTitle();
 				System.out.println("Windows Title : " + windowTitle);
 			}
@@ -131,11 +148,4 @@ public class Base {
 		return data;
 	}
 
-	/*
-	 * This block of code will be used to geerate extent reports
-	 */
-	public void genarateExtentReports(String testName) {
-		reports = new ExtentReport();
-		reports.extentReports(testName);
-	}
 }

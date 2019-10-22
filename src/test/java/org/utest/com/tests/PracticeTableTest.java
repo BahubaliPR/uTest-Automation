@@ -13,7 +13,5 @@ public class PracticeTableTest extends Base {
 	public void performPracticeTable() {
 		practiceTable = new PracticeTablePage(driver);
 		practiceTable.getDataFromTheTable();
-
-		genarateExtentReports("PracticeTableTest");
 	}
 }
