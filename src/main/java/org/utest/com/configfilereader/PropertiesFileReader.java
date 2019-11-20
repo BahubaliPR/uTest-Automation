@@ -10,23 +10,24 @@ import org.utest.com.base.Base;
 /**
  * Bahubali P R
  */
-public class ConfigFileReader extends Base {
+public class PropertiesFileReader {
 
 	/*
 	 * Creating a reference for Properties class.
 	 */
-	private Properties properties;
+	private Properties properties = null;
+	private Base base = new Base();
 
 	/*
 	 * Assigning config.propertis file path the variable propertyFilePath.
 	 */
-	private final String propertyFilePath = userdir + "/Configurations/config.properties";
+	private final String propertyFilePath = base.userdir + "/Configurations/config.properties";
 
 	/*
 	 * creating a constructor and reading property file from the configurations
 	 * folder.
 	 */
-	public ConfigFileReader() {
+	public PropertiesFileReader() {
 		BufferedReader reader;
 		try {
 			reader = new BufferedReader(new FileReader(propertyFilePath));
@@ -90,5 +91,24 @@ public class ConfigFileReader extends Base {
 		else
 			throw new RuntimeException("url not specified in the Configuration.properties file.");
 	}
-
+	
+	public long getPollingTime() {
+		String pollTime = properties.getProperty("pollingTime");
+		if(pollTime != null){
+			return Long.parseLong(pollTime);
+		}
+		else {
+			throw new RuntimeException("Polling time not found in specified configuration file.");
+		}
+	}
+	
+	public String getTestDataFolderPath() {
+		String testDatasheetPath = properties.getProperty("testDataPath");
+		if(testDatasheetPath != null) {
+			return testDatasheetPath;
+		}
+		else {
+			throw new RuntimeException("The test data sheet path is not specified in configuration file.");
+		}
+	}
 }

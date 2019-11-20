@@ -5,6 +5,7 @@ package org.utest.com.pages;
  */
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -12,12 +13,16 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.utest.com.base.Base;
+import org.utest.com.configfilereader.PropertiesFileReader;
+import org.utest.com.wait.WebDriverWaits;
+import org.utest.com.windows.WindowHandler;
 
 public class PracticeTablePage {
 
-	private WebDriver driver = null;
+	public WebDriver driver = null;
 	private Actions action = null;
-	private Base base = null;
+	private WebDriverWaits wait = null;
+	private WindowHandler windowHandle = null;
 
 	@FindBy(how = How.XPATH, using = ".//ul[@id='primary-menu']//preceding::nav[@class='navigation']//span[contains(text(),'DEMO SITES')]")
 	private WebElement moveToDemoSite;
@@ -42,15 +47,17 @@ public class PracticeTablePage {
 	 */
 	public void getDataFromTheTable() {
 		action = new Actions(driver);
-		base = new Base();
+		wait = new WebDriverWaits();
+		windowHandle = new WindowHandler();
 
-		base.waitUntilElementToBeClickable(moveToDemoSite, driver);
-		action.moveToElement(moveToDemoSite).perform();
+		wait.waitUntilElementToBeClickable(moveToDemoSite, driver);
+		action.moveToElement(moveToDemoSite).build().perform();
 
-		base.waitUntilElementToBeClickable(clickOnPracticeTable, driver);
+		wait.waitUntilElementToBeClickable(clickOnPracticeTable, driver);
 		clickOnPracticeTable.click();
 
-		base.waitUntilPageLoad(driver);
+		wait.waitUntilElementToBeVisible(baseTable, driver);
+		windowHandle.switchToHandleWindow(driver);
 		List<WebElement> totalRows = baseTable.findElements(By.xpath(".//tr//td"));
 		int rowSize = totalRows.size();
 

@@ -9,12 +9,17 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
-public class ExtentReport extends Base {
+public class ExtentReport {
 
 	private ExtentHtmlReporter report = null;
 	private ExtentReports extent = null;
 	public ExtentTest logger = null;
 
+	String userdir = System.getProperty("user.dir");
+
+	/*
+	 * This piece of code will be used to generate extent reports.
+	 */
 	public void extentReports(String testName) {
 		report = new ExtentHtmlReporter(userdir + "/ExtentReports/testReports.html");
 		extent = new ExtentReports();

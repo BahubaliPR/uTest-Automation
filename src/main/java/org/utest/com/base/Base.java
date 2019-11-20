@@ -17,25 +17,20 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.utest.com.configfilereader.ConfigFileReader;
+import org.utest.com.configfilereader.PropertiesFileReader;
 import org.utest.com.extentreports.ExtentReport;
 import org.utest.com.utility.ExcelReader;
 import org.utest.com.webdriverlisteners.WebEventListener;
 
 public class Base {
 
-	/*
-	 * Creating reference for EventFirinfWebDriver and WebEventLestener
-	 */
-	public EventFiringWebDriver eventDriver = null;
-	private WebEventListener eventListener = null;
-	private ConfigFileReader reader = null;
+	private PropertiesFileReader reader = null;
 
 	/*
 	 * Creating a WebDriver reference
 	 */
 	public WebDriver driver = null;
-	private WebDriverWait wait = null;
+	public WebDriverWait wait = null;
 	private ExcelReader readExcel = null;
 	private ExtentReport reports = null;
 
@@ -48,23 +43,18 @@ public class Base {
 	 * Launch the browser and maximize the window
 	 */
 	public void launchBrowser() {
-		
-		reader = new ConfigFileReader();
+
+		reader = new PropertiesFileReader();
 		System.setProperty("webdriver.chrome.driver", userdir + reader.getDriverPath());
 		driver = new ChromeDriver();
-		eventDriver = new EventFiringWebDriver(driver);
-		eventListener = new WebEventListener();
-		eventDriver.register(eventListener);
-	
-
-		eventDriver.manage().window().maximize();
+		driver.manage().window().maximize();
 	}
 
 	/*
 	 * Set the URL to be navigated
 	 */
 	public void navigateToURL() {
-		eventDriver.get(reader.getApplicationUrl());
+		driver.get(reader.getApplicationUrl());
 	}
 
 	/*
@@ -82,53 +72,13 @@ public class Base {
 	 */
 	@AfterMethod
 	public void closeBrowser() {
-		eventDriver.close();
-		eventDriver.quit();
+		driver.close();
+		driver.quit();
 	}
 
-	/*
-	 * Waits until the element to be clickable on the current page
-	 */
-	public void waitUntilElementToBeClickable(WebElement element, WebDriver driver) {
-		wait = new WebDriverWait(driver, reader.getExplicitWait());
-		wait.until(ExpectedConditions.elementToBeClickable(element));
-	}
-
-	/*
-	 * Waits until visibility of all the elements in the current page
-	 */
-	public void waitUntilElementsToBeVisible(List<WebElement> elements, WebDriver driver) {
-		wait = new WebDriverWait(driver, reader.getExplicitWait());
-		wait.until(ExpectedConditions.visibilityOfAllElements(elements));
-	}
-
-	/*
-	 * waits until current page to be loaded
-	 */
-	public void waitUntilPageLoad(WebDriver driver) {
-		driver.manage().timeouts().pageLoadTimeout(reader.getImplicitlyWait(), TimeUnit.SECONDS);
-	}
-
-	/*
-	 * Handling windows
-	 */
-	public void switchToHandleWindow(WebDriver driver) {
-
-		String parentWindowHandle = eventDriver.getWindowHandle();
-		Set<String> windowHandles = eventDriver.getWindowHandles();
-
-		for (String handle : windowHandles) {
-			if (!parentWindowHandle.equals(handle)) {
-				eventDriver.switchTo().window(handle);
-				String windowTitle = driver.getTitle();
-				System.out.println("Windows Title : " + windowTitle);
-			}
-		}
-	}
-
-	/*
-	 * This block of code will be used to read data from excel sheet
-	 */
+	
+	// * This block of code will be used to read data from excel sheet
+	 
 	public String[][] getAllDataFromExcel(String excelFileName, String sheetName, String colName, int rowNumber) {
 		String excelFilePath = userdir + "/TestData/" + excelFileName;
 		readExcel = new ExcelReader(excelFilePath);
@@ -137,9 +87,9 @@ public class Base {
 		return data;
 	}
 
-	/*
-	 * This block of code will help to get cell data from the excel sheet
-	 */
+	
+	 // This block of code will help to get cell data from the excel sheet
+	 
 	public String getCellDataFromExcel(String excelFileName, String sheetName, String colName, int rowNumber) {
 		String excelFilePath = userdir + "/TestData/" + excelFileName;
 		readExcel = new ExcelReader(excelFilePath);
@@ -147,5 +97,4 @@ public class Base {
 		String data = readExcel.getCellDataFromSheet(sheetName, colName, rowNumber);
 		return data;
 	}
-
 }
