@@ -43,7 +43,6 @@ public class Base {
 	 * Launch the browser and maximize the window
 	 */
 	public void launchBrowser() {
-
 		reader = new PropertiesFileReader();
 		System.setProperty("webdriver.chrome.driver", userdir + reader.getDriverPath());
 		driver = new ChromeDriver();
@@ -76,24 +75,20 @@ public class Base {
 		driver.quit();
 	}
 
-	
 	// * This block of code will be used to read data from excel sheet
-	 
+
 	public String[][] getAllDataFromExcel(String excelFileName, String sheetName, String colName, int rowNumber) {
 		String excelFilePath = userdir + "/TestData/" + excelFileName;
 		readExcel = new ExcelReader(excelFilePath);
-
 		String[][] data = readExcel.getDataFromSheet(sheetName, excelFileName);
 		return data;
 	}
 
-	
-	 // This block of code will help to get cell data from the excel sheet
-	 
+	// This block of code will help to get cell data from the excel sheet
+
 	public String getCellDataFromExcel(String excelFileName, String sheetName, String colName, int rowNumber) {
 		String excelFilePath = userdir + "/TestData/" + excelFileName;
 		readExcel = new ExcelReader(excelFilePath);
-
 		String data = readExcel.getCellDataFromSheet(sheetName, colName, rowNumber);
 		return data;
 	}

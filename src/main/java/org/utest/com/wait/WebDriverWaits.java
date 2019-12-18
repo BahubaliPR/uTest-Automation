@@ -16,13 +16,15 @@ import org.utest.com.configfilereader.PropertiesFileReader;
 public class WebDriverWaits {
 
 	private WebDriverWait wait = null;
-	private FluentWait<WebDriver> fwait = null;
-
+	//private FluentWait<WebDriver> fwait = null;
 	private PropertiesFileReader reader = null;
 	private long implicitWaitTime;
 	private long explicitWaitTime;
 	private long pollTime;
 
+	/*
+	 * Get Data from config file and assign those values to variable
+	 */
 	public void dataInitialization() {
 		reader = new PropertiesFileReader();
 		implicitWaitTime = reader.getImplicitlyWait();
@@ -53,6 +55,9 @@ public class WebDriverWaits {
 		wait.until(ExpectedConditions.visibilityOfAllElements(elements));
 	}
 	
+	/*
+	 * Waits until the specified element to be visible.
+	 */
 	public void waitUntilElementToBeVisible(WebElement element, WebDriver driver){
 		wait = new WebDriverWait(driver,explicitWaitTime);
 		wait.until(ExpectedConditions.visibilityOf(element));
@@ -61,8 +66,17 @@ public class WebDriverWaits {
 	/*
 	 * Below block of code gives FluentWait functionality
 	 */
+	@SuppressWarnings("deprecation")
 	public void fluentWait(WebDriver driver) {
-		fwait = new FluentWait<WebDriver>(driver).withTimeout(explicitWaitTime, TimeUnit.SECONDS)
+		new FluentWait<WebDriver>(driver).withTimeout(explicitWaitTime, TimeUnit.SECONDS)
 				.pollingEvery(pollTime, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
+	}
+	
+	/*
+	 * Waits until the alert appears.
+	 */
+	public void waitUntilAlertAppear(WebDriver driver){
+		wait = new WebDriverWait(driver,explicitWaitTime);
+		wait.until(ExpectedConditions.alertIsPresent());
 	}
 }

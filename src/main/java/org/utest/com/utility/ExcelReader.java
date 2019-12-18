@@ -135,7 +135,7 @@ public class ExcelReader {
 	public String[][] getAllDataFromExcel(String excelFileName, String sheetName, String colName, int rowNumber) {
 		
 		excelFilePath = userdir + testDataPath + excelFileName;
-		String[][] data = this.getDataFromSheet(sheetName, excelFileName);
+		String[][] data = getDataFromSheet(sheetName, excelFileName);
 		return data;
 	}
 

@@ -37,8 +37,13 @@ public class PracticeTablePage {
 	 * Initialize all the web elements to driver
 	 */
 	public PracticeTablePage(WebDriver driver) {
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
+		try {
+			this.driver = driver;
+			PageFactory.initElements(driver, this);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -46,29 +51,35 @@ public class PracticeTablePage {
 	 * Select cell data from the table
 	 */
 	public void getDataFromTheTable() {
-		action = new Actions(driver);
-		wait = new WebDriverWaits();
-		windowHandle = new WindowHandler();
+		try {
+			action = new Actions(driver);
+			wait = new WebDriverWaits();
+			windowHandle = new WindowHandler();
 
-		wait.waitUntilElementToBeClickable(moveToDemoSite, driver);
-		action.moveToElement(moveToDemoSite).build().perform();
+			wait.waitUntilElementToBeClickable(moveToDemoSite, driver);
+			action.moveToElement(moveToDemoSite).build().perform();
 
-		wait.waitUntilElementToBeClickable(clickOnPracticeTable, driver);
-		clickOnPracticeTable.click();
+			wait.waitUntilElementToBeClickable(clickOnPracticeTable, driver);
+			clickOnPracticeTable.click();
 
-		wait.waitUntilElementToBeVisible(baseTable, driver);
-		windowHandle.switchToHandleWindow(driver);
-		List<WebElement> totalRows = baseTable.findElements(By.xpath(".//tr//td"));
-		int rowSize = totalRows.size();
+			wait.waitUntilElementToBeVisible(baseTable, driver);
+			windowHandle.switchToWindowHandles(driver);
+			List<WebElement> totalRows = baseTable.findElements(By.xpath(".//tr//td"));
+			int rowSize = totalRows.size();
 
-		for (int row = 1; row < rowSize; row++) {
+			for (int row = 1; row < rowSize; row++) {
 
-			String country = "UAE";
-			String cellData = totalRows.get(row).getText();
-			if (country.equals(cellData)) {
-				System.out.println(cellData);
-				break;
+				String country = "UAE";
+				String cellData = totalRows.get(row).getText();
+				if (country.equals(cellData)) {
+					System.out.println(cellData);
+					break;
+				}
 			}
 		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
+		
 }
