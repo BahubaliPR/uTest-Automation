@@ -11,13 +11,15 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.utest.com.base.Base;
+import org.utest.com.wait.WebDriverWaits;
+import org.utest.com.windows.WindowHandler;
 
 public class PracticeTablePage {
 
-	private WebDriver driver = null;
+	public WebDriver driver = null;
 	private Actions action = null;
-	private Base base = null;
+	private WebDriverWaits wait = null;
+	private WindowHandler windowHandle = null;
 
 	@FindBy(how = How.XPATH, using = ".//ul[@id='primary-menu']//preceding::nav[@class='navigation']//span[contains(text(),'DEMO SITES')]")
 	private WebElement moveToDemoSite;
@@ -32,8 +34,13 @@ public class PracticeTablePage {
 	 * Initialize all the web elements to driver
 	 */
 	public PracticeTablePage(WebDriver driver) {
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
+		try {
+			this.driver = driver;
+			PageFactory.initElements(driver, this);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -41,27 +48,35 @@ public class PracticeTablePage {
 	 * Select cell data from the table
 	 */
 	public void getDataFromTheTable() {
-		action = new Actions(driver);
-		base = new Base();
+		try {
+			action = new Actions(driver);
+			wait = new WebDriverWaits();
+			windowHandle = new WindowHandler();
 
-		base.waitUntilElementToBeClickable(moveToDemoSite, driver);
-		action.moveToElement(moveToDemoSite).perform();
+			wait.waitUntilElementToBeClickable(moveToDemoSite, driver);
+			action.moveToElement(moveToDemoSite).build().perform();
 
-		base.waitUntilElementToBeClickable(clickOnPracticeTable, driver);
-		clickOnPracticeTable.click();
+			wait.waitUntilElementToBeClickable(clickOnPracticeTable, driver);
+			clickOnPracticeTable.click();
 
-		base.waitUntilPageLoad(driver);
-		List<WebElement> totalRows = baseTable.findElements(By.xpath(".//tr//td"));
-		int rowSize = totalRows.size();
+			wait.waitUntilElementToBeVisible(baseTable, driver);
+			windowHandle.switchToChildWindow(driver);
+			List<WebElement> totalRows = baseTable.findElements(By.xpath(".//tr//td"));
+			int rowSize = totalRows.size();
 
-		for (int row = 1; row < rowSize; row++) {
+			for (int row = 1; row < rowSize; row++) {
 
-			String country = "UAE";
-			String cellData = totalRows.get(row).getText();
-			if (country.equals(cellData)) {
-				System.out.println(cellData);
-				break;
+				String country = "UAE";
+				String cellData = totalRows.get(row).getText();
+				if (country.equals(cellData)) {
+					System.out.println(cellData);
+					break;
+				}
 			}
 		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
+		
 }

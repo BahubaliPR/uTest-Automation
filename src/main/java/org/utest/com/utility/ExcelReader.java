@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.utest.com.configfilereader.PropertiesFileReader;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class ExcelReader {
@@ -20,6 +21,13 @@ public class ExcelReader {
 	private XSSFRow row;
 	private XSSFCell cell;
 	private String path;
+	
+	private String excelFilePath;
+	private String testDataFolderPath;
+	private PropertiesFileReader reader = null;
+	private String testDataPath;
+	
+	String userdir = System.getProperty("user.dir");
 
 	public ExcelReader(String path) {
 		this.path = path;
@@ -29,6 +37,11 @@ public class ExcelReader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void initializeTestDataFolderPath() {
+		reader = new PropertiesFileReader();
+		testDataPath = reader.getTestDataFolderPath();
 	}
 
 	@SuppressWarnings({ "Depreciated" })
@@ -114,6 +127,25 @@ public class ExcelReader {
 		}
 
 		return null;
+	}
+	
+	/*
+	 * This block of code will be used to read data from excel sheet
+	 */
+	public String[][] getAllDataFromExcel(String excelFileName, String sheetName, String colName, int rowNumber) {
+		
+		excelFilePath = userdir + testDataPath + excelFileName;
+		String[][] data = getDataFromSheet(sheetName, excelFileName);
+		return data;
+	}
+
+	/*
+	 * This block of code will help to get cell data from the excel sheet
+	 */
+	public String getCellDataFromExcel(String excelFileName, String sheetName, String colName, int rowNumber) {
+		excelFilePath = userdir + testDataPath + excelFileName;
+		String data = this.getCellDataFromSheet(sheetName, colName, rowNumber);
+		return data;
 	}
 
 }

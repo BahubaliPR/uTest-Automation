@@ -11,6 +11,5 @@
 	<listeners>
 		<listener class-name="org.utest.com.testnglisteners.ExecutionListeners" />
 		<listener class-name="org.utest.com.testnglisteners.TestListeners" />
-	
 	</listeners>
 </suite>
