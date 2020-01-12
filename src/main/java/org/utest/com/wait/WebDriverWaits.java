@@ -76,7 +76,7 @@ public class WebDriverWaits {
 	 * Waits until the alert appears.
 	 */
 	public void waitUntilAlertAppear(WebDriver driver){
-		wait = new WebDriverWait(driver,explicitWaitTime);
+		wait = new WebDriverWait(driver,30);
 		wait.until(ExpectedConditions.alertIsPresent());
 	}
 }

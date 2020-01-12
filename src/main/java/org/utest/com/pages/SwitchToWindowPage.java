@@ -24,6 +24,8 @@ public class SwitchToWindowPage {
 	private WindowHandler window = null;
 	private WebDriverWaits wait = null;
 	private Actions action = null;
+	private JavascriptExecutor execute = null;
+	private Alert alert = null;
 
 	@FindBy(how = How.XPATH, using = ".//ul[@id='primary-menu']//preceding::nav[@class='navigation']//span[contains(text(),'DEMO SITES')]")
 	WebElement moveToDemoSite;
@@ -40,10 +42,10 @@ public class SwitchToWindowPage {
 	@FindBy(how = How.XPATH, using = ".//button[contains(text(),'New Browser Tab')]")
 	WebElement clickNewBrowserTabWindow;
 
-	@FindBy(how = How.XPATH, using = "button[id='alert']")
+	@FindBy(how = How.XPATH, using = ".//button[contains(text(),'Alert Box')]")
 	WebElement clickOnAlertBox;
 
-	@FindBy(how = How.XPATH, using = "button[id='timingAlert']")
+	@FindBy(how = How.XPATH, using = ".//button[contains(text(),'Timing Alert')]")
 	WebElement clickOnTimeAlertBox;
 
 	@FindBy(how = How.XPATH, using = ".//ul[@id='primary-menu']//preceding::nav[@class='navigation']//span[contains(text(),'HOME')]")
@@ -51,108 +53,102 @@ public class SwitchToWindowPage {
 
 	@FindBy(how = How.XPATH, using = ".//ul[@id='primary-menu']//preceding::nav[@class='navigation']//span[contains(text(),'Blogs')]")
 	WebElement clickBlogs;
-	
+
 	public SwitchToWindowPage(WebDriver driver) {
-		try{
+		try {
+			execute = (JavascriptExecutor) driver;
 			this.driver = driver;
 			PageFactory.initElements(driver, this);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/*
-	 * This block of code will be used to navigate to Demo Site and clicks on practice window option.
+	 * This block of code will be used to navigate to Demo Site and clicks on
+	 * practice window option.
 	 */
 	public void moveToDemoSite() {
-		
+
 		try {
 			window = new WindowHandler();
 			action = new Actions(driver);
 			wait = new WebDriverWaits();
-			
+
 			wait.waitUntilElementToBeClickable(moveToDemoSite, driver);
 			action.moveToElement(moveToDemoSite).build().perform();
-			
+
 			wait.waitUntilElementToBeClickable(clickOnSwitchWindow, driver);
 			clickOnSwitchWindow.click();
-			
-/*			wait.waitUntilPageLoad(driver);
-			((JavascriptExecutor) driver).executeScript("window.scrollBy(0,500)");*/
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unable to click on the element");
 		}
-		
 	}
 
 	/*
-	 * This block of code will be used switch to another window when the new browser window will be opened.
+	 * This block of code will be used switch to another window when the new
+	 * browser window will be opened.
 	 */
 	public void switchToNewBrowserWindow() {
 		try {
 			wait.waitUntilElementToBeClickable(clickNewBrowserWindow, driver);
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();",clickNewBrowserWindow);
-			
-			/*wait.waitUntilPageLoad(driver);
-			driver.manage().window().maximize();*/
-			
+			execute.executeScript("arguments[0].click();", clickNewBrowserWindow);
+			window.switchToChildWindow(driver);
+			System.out.println(driver.getTitle());
+			driver.manage().window().maximize();
 			wait.waitUntilElementToBeClickable(clickOnHome, driver);
-			window.switchToWindowHandles(driver);
-			
-			wait.waitUntilElementToBeClickable(clickOnHome, driver);
-			clickOnHome.click();	
-		}
-		catch(Exception e){
+			clickOnHome.click();
+
+			window.moveToParentWindow(driver);
+			System.out.println(driver.getTitle());
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("Unable to click on the element");
+			throw new RuntimeException(e.getMessage());
 		}
-		
 	}
 
 	/*
-	 * This block of code will be used to switch to another window when the new message window will be opened. 
+	 * This block of code will be used to switch to another window when the new
+	 * message window will be opened.
 	 */
 	public void switchToNewMessageWinodw() {
 		try {
 			wait.waitUntilElementToBeVisible(clickNewMessageWinodw, driver);
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();",clickNewMessageWinodw);
-			
-			window.switchToWindowHandles(driver);
-			wait.waitUntilElementToBeClickable(clickNewMessageWinodw, driver);
-			
+			execute.executeScript("arguments[0].click();", clickNewMessageWinodw);
+			window.switchToChildWindow(driver);
 			driver.manage().window().maximize();
-			
-			String windowMessage = clickNewMessageWinodw.getText();
-			System.out.println(windowMessage);
-		}
-		catch(Exception e){
+			window.moveToParentWindow(driver);
+			System.out.println(driver.getTitle());
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("Unable to click on the element");
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
 	/*
-	 * This block of code will be used to switch to another window when the new tab window will be opened.
+	 * This block of code will be used to switch to another window when the new
+	 * tab window will be opened.
 	 */
 	public void switchToNewBrowserTabWindow() {
-	   try {
-		   wait.waitUntilElementToBeClickable(clickNewBrowserTabWindow, driver);
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();",clickNewBrowserTabWindow);
-
-			window.switchToWindowHandles(driver);
-			wait.waitUntilElementToBeClickable(clickBlogs, driver);
-			
+		try {
+			wait.waitUntilElementToBeClickable(clickNewBrowserTabWindow, driver);
+			execute.executeScript("arguments[0].click();", clickNewBrowserTabWindow);
+			window.switchToChildWindow(driver);
 			driver.manage().window().maximize();
+			wait.waitUntilElementToBeClickable(clickBlogs, driver);
 			clickBlogs.click();
-	   }
-	   catch(Exception e){
-		   e.printStackTrace();
-		   throw new RuntimeException("Unable to click on the element");
-	   }
-		
+
+			window.moveToParentWindow(driver);
+			System.out.println(driver.getTitle());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+
 	}
 
 	/*
@@ -160,23 +156,20 @@ public class SwitchToWindowPage {
 	 */
 	public void handleAlerts() {
 		try {
-			window.moveToParentWindow(driver);
 			wait.waitUntilElementToBeClickable(clickOnAlertBox, driver);
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();",clickOnAlertBox);
-
+			execute.executeScript("arguments[0].click();", clickOnAlertBox);
 			wait.waitUntilAlertAppear(driver);
-			Alert alert = driver.switchTo().alert();
+			alert = driver.switchTo().alert();
 			alert.accept();
 
 			wait.waitUntilElementToBeClickable(clickOnTimeAlertBox, driver);
-			((JavascriptExecutor) driver).executeScript("arguments[0].click();",clickOnTimeAlertBox);
-			driver.manage().window().maximize();
+			execute.executeScript("arguments[0].click();", clickOnTimeAlertBox);
 			wait.waitUntilAlertAppear(driver);
+			alert = driver.switchTo().alert();
 			alert.accept();
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException("Unable to click on the element");
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 }

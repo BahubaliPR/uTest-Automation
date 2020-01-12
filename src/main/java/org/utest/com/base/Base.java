@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -33,6 +34,7 @@ public class Base {
 	public WebDriverWait wait = null;
 	private ExcelReader readExcel = null;
 	private ExtentReport reports = null;
+	private Alert alert = null;
 
 	/*
 	 * setting up the user directory
@@ -73,6 +75,27 @@ public class Base {
 	public void closeBrowser() {
 		driver.close();
 		driver.quit();
+	}
+
+	/*
+	 * Alerts
+	 */
+	public void acceptAlert() {
+		alert = driver.switchTo().alert();
+	}
+	
+	public void dismisAlert() {
+		alert = driver.switchTo().alert();
+	}
+	
+	public void sendkeysYesAlert() {
+		alert = driver.switchTo().alert();
+		alert.sendKeys("yes");
+	}
+	
+	public void sendkeysNoAlert() {
+		alert = driver.switchTo().alert();
+		alert.sendKeys("No");
 	}
 
 	// * This block of code will be used to read data from excel sheet

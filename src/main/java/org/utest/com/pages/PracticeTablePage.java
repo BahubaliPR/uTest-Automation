@@ -5,15 +5,12 @@ package org.utest.com.pages;
  */
 import java.util.List;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.utest.com.base.Base;
-import org.utest.com.configfilereader.PropertiesFileReader;
 import org.utest.com.wait.WebDriverWaits;
 import org.utest.com.windows.WindowHandler;
 
@@ -63,7 +60,7 @@ public class PracticeTablePage {
 			clickOnPracticeTable.click();
 
 			wait.waitUntilElementToBeVisible(baseTable, driver);
-			windowHandle.switchToWindowHandles(driver);
+			windowHandle.switchToChildWindow(driver);
 			List<WebElement> totalRows = baseTable.findElements(By.xpath(".//tr//td"));
 			int rowSize = totalRows.size();
 

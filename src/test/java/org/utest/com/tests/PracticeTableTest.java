@@ -14,7 +14,7 @@ public class PracticeTableTest extends Base {
 	public PracticeTablePage practiceTable = null;
 	private ExtentReport report = null;
 
-	@Test
+	@Test(priority=1)
 	public void performPracticeTable() {
 		report = new ExtentReport();
 		practiceTable = new PracticeTablePage(driver);
