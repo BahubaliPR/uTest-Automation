@@ -2,6 +2,7 @@ package org.utest.com.pages;
 
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,6 +21,7 @@ public class DemoSiteKeyBoardEventPage {
 	private WebDriverWaits wait = null;
 	private Actions action = null;
 	private WindowHandler windowHandle = null;
+	private Alert alert = null;
 
 	@FindBy(how = How.XPATH, using = ".//ul[@id='primary-menu']//preceding::nav[@class='navigation']//span[contains(text(),'DEMO SITES')]")
 	WebElement demoSite;
@@ -33,8 +35,11 @@ public class DemoSiteKeyBoardEventPage {
 	@FindBy(how = How.XPATH, using = ".//div[@id='content']//ul//li//a[@href='https://demoqa.com/keyboard-events/']")
 	WebElement keyboardEvent;
 
-	@FindBy(how = How.XPATH, using = "input[id='browseFile']")
+	@FindBy(how = How.XPATH, using = ".//input[@id='browseFile']")
 	WebElement browseFile;
+	
+	@FindBy(how = How.XPATH, using = ".//button[@id='uploadButton']")
+	WebElement uploadButton;
 
 	public DemoSiteKeyBoardEventPage(WebDriver driver) {
 		try {
@@ -59,14 +64,25 @@ public class DemoSiteKeyBoardEventPage {
 			basicDemoSite.click();
 
 			windowHandle.switchToChildWindow(driver);
-			String title = driver.getTitle();
-			System.out.println(title);
-			
+			/*
+			 * String title = driver.getTitle(); System.out.println(title);
+			 */
+
 			wait.waitUntilElementToBeClickable(widgetMenu, driver);
 			widgetMenu.click();
 
 			wait.waitUntilElementToBeClickable(keyboardEvent, driver);
 			keyboardEvent.click();
+
+			wait.waitUntilElementToBeVisible(browseFile, driver);
+			browseFile.sendKeys("C:/Users/Vidya M/Desktop/Rem.docx");
+		
+			wait.waitUntilElementToBeClickable(uploadButton, driver);
+			uploadButton.click();
+			wait.waitUntilAlertAppear(driver);
+			alert = driver.switchTo().alert();
+			alert.accept();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
